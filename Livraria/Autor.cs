@@ -184,5 +184,64 @@ namespace Livraria
 
             return NumInseridos;
         }
+
+        public List<Autor> ListaAutores()
+        {
+            List<Autor> lstAutores = new List<Autor>();
+
+            // Cria uma instância da classe SqlConnection
+            SqlConnection cnn = new SqlConnection();
+
+            // Estabelece a string de conexão com o banco de dados
+            // Consultar http://www.connectionstrings.com para obter mais tipos de string de conexão
+            cnn.ConnectionString = "Data Source=" + servidor + ";" +
+                "Initial Catalog=" + banco + ";" +
+                "User ID=" + usuario + ";" +
+                "Password=" + senha + ";" +
+                "Current Language=us_english;Connection Timeout=10";
+
+            try
+            {
+                // Abre a conexão com o banco de dados
+                cnn.Open();
+
+                // Informando dados basicos do comando a ser executado
+                SqlCommand cmd = new SqlCommand("SELECT CodAutor, Nome, CPF, DtNascimento FROM Autor");
+                cmd.Connection = cnn;
+                cmd.CommandType = System.Data.CommandType.Text;
+
+                // Instancia o objeto SqlDataAdapter
+                SqlDataReader rdAutor = cmd.ExecuteReader();
+
+                if (rdAutor.HasRows)
+                {
+                    while (rdAutor.Read())
+                    {
+                        Autor au = new Autor
+                        {
+                            CodAutor = Convert.ToInt32(rdAutor["CodAutor"]),
+                            Nome = rdAutor["Nome"].ToString(),
+                            Cpf = rdAutor["CPF"].ToString(),
+                            DtNascimento = Convert.ToDateTime(rdAutor["DtNascimento"])
+                        };
+                        
+                        lstAutores.Add(au);
+                    }
+                }
+                rdAutor.Close();
+            }
+            catch (Exception ex)
+            {
+                // Em caso de falha, informa ao usuário
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                // Fecha a conexão com o banco de dados
+                cnn.Close();
+            }
+
+            return lstAutores;
+        }
     }
 }

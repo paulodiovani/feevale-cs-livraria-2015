@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,11 @@ namespace Livraria
         private string editora;
         private decimal preco;
         private Autor autorlivro;
+
+        string servidor = "note-novo\\desenv";
+        string banco = "Livraria";
+        string usuario = "regis";
+        string senha = "1234";
 
         #endregion
 
@@ -71,6 +77,66 @@ namespace Livraria
 
         }
 
-        
+        public List<Livro> ListaLivros()
+        {
+            List<Livro> lstLivros = new List<Livro>();
+
+            // Cria uma instância da classe SqlConnection
+            SqlConnection cnn = new SqlConnection();
+
+            // Estabelece a string de conexão com o banco de dados
+            // Consultar http://www.connectionstrings.com para obter mais tipos de string de conexão
+            cnn.ConnectionString = "Data Source=" + servidor + ";" +
+                "Initial Catalog=" + banco + ";" +
+                "User ID=" + usuario + ";" +
+                "Password=" + senha + ";" +
+                "Current Language=us_english;Connection Timeout=10";
+
+            try
+            {
+                // Abre a conexão com o banco de dados
+                cnn.Open();
+
+                // Informando dados basicos do comando a ser executado
+                SqlCommand cmd = new SqlCommand("SELECT CodLivro, Titulo, NumPaginas, Ano, Editora, Preco, CodAutor FROM Livro");
+                cmd.Connection = cnn;
+                cmd.CommandType = System.Data.CommandType.Text;
+
+                // Instancia o objeto SqlDataAdapter
+                SqlDataReader rdLivro = cmd.ExecuteReader();
+
+                if (rdLivro.HasRows)
+                {
+                    while (rdLivro.Read())
+                    {
+                        Livro l = new Livro
+                        {
+                            CodLivro = Convert.ToInt32(rdLivro["CodLivro"]),
+                            Titulo = rdLivro["Titulo"].ToString(),
+                            NumPaginas = Convert.ToInt32(rdLivro["NumPaginas"]),
+                            Ano = Convert.ToInt32(rdLivro["Ano"]),
+                            Editora = rdLivro["Editora"].ToString(),
+                            Preco = Convert.ToDecimal(rdLivro["Preco"]),
+                            Autorlivro = new Autor(Convert.ToInt32(rdLivro["CodAutor"]))
+                        };
+
+                        lstLivros.Add(l);
+                    }
+                }
+                rdLivro.Close();
+            }
+            catch (Exception ex)
+            {
+                // Em caso de falha, informa ao usuário
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                // Fecha a conexão com o banco de dados
+                cnn.Close();
+            }
+
+            return lstLivros;
+        }
     }
 }
