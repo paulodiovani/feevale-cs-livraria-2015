@@ -53,6 +53,12 @@
     <Compile Include="AutorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Livraria\Livraria.csproj">
+      <Project>{4281b0ce-6ce6-453f-8ab6-9dc3d90eba64}</Project>
+      <Name>Livraria</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
