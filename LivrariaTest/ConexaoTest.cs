@@ -20,7 +20,7 @@ namespace LivrariaTest
         [TestMethod]
         public void TestInstanceState()
         {
-            Assert.AreEqual(conexao.State, ConnectionState.Open);
+            Assert.AreEqual(ConnectionState.Open, conexao.State);
         }
     }
 }

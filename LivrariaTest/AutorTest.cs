@@ -19,10 +19,10 @@ namespace LivrariaTest
             autor.Cpf = "012.345.678.90";
             autor.DtNascimento = new DateTime(1948, 9, 20);
 
-            Assert.AreEqual(autor.CodAutor, 999);
-            Assert.AreEqual(autor.Nome, "George R. R. Martin");
-            Assert.AreEqual(autor.Cpf, "012.345.678.90");
-            Assert.AreEqual<DateTime>(autor.DtNascimento, new DateTime(1948, 9, 20));
+            Assert.AreEqual(999, autor.CodAutor);
+            Assert.AreEqual("George R. R. Martin", autor.Nome);
+            Assert.AreEqual("012.345.678.90", autor.Cpf);
+            Assert.AreEqual<DateTime>(new DateTime(1948, 9, 20), autor.DtNascimento);
         }
 
         [TestMethod]
