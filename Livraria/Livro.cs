@@ -19,10 +19,10 @@ namespace Livraria
         private decimal preco;
         private Autor autorlivro;
 
-        string servidor = "note-novo\\desenv";
+        string servidor = "windows\\sqlexpress";
         string banco = "Livraria";
-        string usuario = "regis";
-        string senha = "1234";
+        string usuario = "sa";
+        string senha = "feevale";
 
         #endregion
 

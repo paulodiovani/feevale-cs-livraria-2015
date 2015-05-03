@@ -17,10 +17,10 @@ namespace Livraria
         private string cpf;
         private DateTime dtNascimento;
 
-        string servidor = "note-novo\\desenv";
+        string servidor = "windows\\sqlexpress";
         string banco = "Livraria";
-        string usuario = "regis";
-        string senha = "1234";
+        string usuario = "sa";
+        string senha = "feevale";
 
         #endregion
 
